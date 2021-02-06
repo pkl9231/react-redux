@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { connect } from "react-redux";
+import { changeName, fetchDataFromServer } from "./actions/index";
+import "./App.css";
 
-function App() {
+function App(props) {
+  console.log("state data", props);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>First Name: {props.firstName}</h1>
+      <h1>Last Name: {props.lastName}</h1>
+      <button onClick={() => props.changeNameValue("Sanjay")}>
+        Change First Name
+      </button>
+      <button onClick={() => props.fetchDataFromServer()}>Call APi</button>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeNameValue: (name) => dispatch(changeName(name)),
+    fetchDataFromServer: () => dispatch(fetchDataFromServer()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
